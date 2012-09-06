@@ -1,0 +1,446 @@
+
+/* ===== Primary Styles ========================================================
+   Author
+
+      Boilerplate: Danny Bowman <daniel.bowman@gree.co.jp>
+      Application: Danny Bowman <daniel.bowman@gree.co.jp>
+
+   ========================================================================== */
+
+/* Overriding some bootstrap styles */
+.orion a:focus {
+  outline: none;
+}
+.orion .page-header {
+  margin: 30px 0px 18px 0px;
+}
+.orion .navbar .brand {
+  color: #FFF;
+}
+
+
+/* Nav header styles */
+
+#nav-navbar-orion .nav > li > a {
+  padding: 15px 10px;
+}
+
+#nav-navbar-orion a.brand {
+  padding: 14px 20px 12px;
+}
+
+#nav-logo-orion {
+  background-image: url(../img/logo.png);
+  background-repeat: no-repeat;
+  width: 200px;
+  height: 50px;
+  float: right;
+}
+
+
+/* Loading bar styles */
+
+#orion-loading-bar {
+  margin-top: 100px;
+}
+
+
+/* Content styles */
+
+th {
+  cursor: pointer;
+}
+
+th.goog-tablesorter-sorted {
+  color: #0071c3;
+}
+
+th.goog-tablesorter-sorted-reverse {
+  color: #e6893f;
+}
+
+
+
+/* Legacy Orion Styles */
+
+a {
+  color: black;
+}
+
+.game {
+  padding: 10px;
+}
+
+input.input{
+  width: 250px;
+}
+
+@-moz-document url-prefix() {
+    input.input {
+        margin: 1px 0px 2px 0px;
+    }
+}
+
+.link > .input {
+  float: left;
+  margin-right: 10px;
+}
+
+.delete {
+  height: 19px;
+  margin: 2px;
+}
+
+select {
+  margin: 3px 0px;
+  width: 200px;
+}
+
+.metric > .input {
+  margin-right: 10px;
+}
+
+.edit > .input {
+  margin-right: 10px;
+}
+
+.metric > .text{
+  width: 100px;
+  float: left;
+  height: 19px;
+  margin: 2px 8px 2px 0px;
+  text-align: right;
+}
+
+.edit > .text{
+  width: 100px;
+  float: left;
+  height: 19px;
+  margin: 2px 8px 2px 0px;
+  text-align: right;
+}
+
+.metric {
+  border: 1px solid black;
+  width: 660px;
+  background-color: rgba(255,255,255,.5);
+}
+
+.metric_name {
+  display: inline-block;
+  margin: 2px 0px;
+  width: 500px;
+}
+
+.save_dashboard {
+  height: 21px;
+  font-weight: bold;
+  font-size: 0.8em;
+}
+
+.half_size_left{
+  float: left;
+  width: 50%;
+}
+
+.half_size_right{
+  float: right;
+  width: 50%;
+}
+
+.full_size {
+  width: 100%;
+}
+
+
+/* New Orion Styles */
+
+#navpane {
+  width:23%;
+  float: right;
+  border-left: 2px solid;
+}
+
+.login_info {
+  color: #c7c7c7;
+  line-height: 19px;
+  padding: 15px 10px;
+  font-size: 10px;
+}
+.orion .nav.pull-right {
+  margin-right: 15px;
+}
+
+.orion .dropdown-menu {
+  min-width: 240px;
+  max-width: 330px;
+}
+
+  .orion .dropdown-menu a {
+    padding: 0px 0px;
+    display: inline;
+  }
+
+    .orion .dropdown-menu a.edit_link {
+      font-size: 8pt;
+    }
+
+#game-nav {
+  float: left;
+  font-size: 30px;
+  padding: 5px 15px;
+  color: #0898d9;
+}
+
+#datepickers {
+  display: none;
+  margin: 58px 0px 0px 0px;
+}
+
+#graph_title {
+  position: relative;
+  top: 16px;
+}
+#graph_title.view_metric {
+  font-size: 16px;
+}
+
+#graph_title small {
+  margin-left: 10px;
+}
+
+#result div {
+  margin-bottom: 15px;
+}
+
+#graphpane #graphs {
+  display: none;
+  padding-bottom: 0px;
+}
+
+#add_graph {
+  margin-bottom: 20px;
+}
+
+div.form-actions {
+  clear: both;
+}
+
+#create_dashboard_form .alert {
+  display: none;
+}
+
+#server-error {
+  display: none;
+}
+
+.orion .form-horizontal .control-group {
+  margin-bottom: 2px;
+}
+
+.orion .well {
+  padding: 10px;
+  background-color: #ebebeb;
+}
+
+.orion .metrics_div .well {
+  background-color: whitesmoke;
+}
+
+.btn.graph_down {
+  float: right;
+  margin-right: 10px;
+}
+
+.btn.graph_up {
+  float: right;
+  margin-right: 10px;
+}
+
+
+/* Rounded tab borders from here: http://css-tricks.com/better-tabs-with-round-out-borders/ */
+.graph_container {
+  margin-top: 50px;
+  padding-top: 15px;
+}
+
+  .graph_name_banner {
+    font-size: 24px;
+    color: #666;
+    height: 40px;
+    line-height: 40px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: #EBEBEB;
+    text-align: center;
+    float: right;
+    display: inline-block;
+    position: relative;
+    right: 40px;
+    bottom: 8px;
+    padding: 0px 30px;
+    min-width: 200px;
+  }
+
+    .graph_name_banner:before,
+    .graph_name_banner:after {
+      position: absolute;
+      bottom: -1px;
+      width: 6px;
+      height: 6px;
+      content: " ";
+      border: 1px solid #EBEBEB;
+    }
+    .graph_name_banner:before {
+      left: -6px;
+      border-bottom-right-radius: 6px;
+      border-width: 0 1px 1px 0;
+      box-shadow: 2px 2px 0 #EBEBEB;
+    }
+    .graph_name_banner:after {
+      right: -6px;
+      border-bottom-left-radius: 6px;
+      border-width: 0 0 1px 1px;
+      box-shadow: -2px 2px 0 #EBEBEB;
+    }
+
+.metric_container {
+  margin-top: 24px;
+  padding-top: 15px;
+}
+
+  .metric_name_banner {
+    float: right;
+    font-size: 11px;
+    color: #666;
+    height: 30px;
+    line-height: 30px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: whiteSmoke;
+    text-align: center;
+    display: inline-block;
+    position: relative;
+    right: 20px;
+    bottom: 5px;
+    padding: 0px 10px;
+    min-width: 200px;
+  }
+
+    .metric_name_banner:before,
+    .metric_name_banner:after {
+      position: absolute;
+      bottom: -1px;
+      width: 6px;
+      height: 6px;
+      content: " ";
+      border: 1px solid whitesmoke;
+    }
+    .metric_name_banner:before {
+      left: -6px;
+      border-bottom-right-radius: 6px;
+      border-width: 0 1px 1px 0;
+      box-shadow: 2px 2px 0 whitesmoke;
+    }
+    .metric_name_banner:after {
+      right: -6px;
+      border-bottom-left-radius: 6px;
+      border-width: 0 0 1px 1px;
+      box-shadow: -2px 2px 0 whitesmoke;
+    }
+
+
+.other_period_item {
+  width: 180px;
+  background-color: #999;
+  border: 1px solid #777;
+  margin: 5px;
+  border-radius: 5px;
+  color: white;
+  padding: 5px;
+}
+
+h2 a.btn {
+  position: relative;
+  left: 30px;
+  top: -3px;
+}
+
+.orion .form-horizontal .form-actions {
+  padding-right: 160px;
+}
+.form-actions a.btn-danger {
+  float: right;
+}
+
+
+/* User Admin styles */
+
+.status_column {
+  width: 200px;
+  height: 29px;
+}
+
+  .status_column span.alert {
+    position: relative;
+    top: 6px;
+  }
+
+.action_column {
+  width: 200px;
+}
+
+/* Links Admin styles */
+
+.links_controls {
+  height: 50px;
+}
+
+
+/* Clearfix */
+
+.clearfix:before, .clearfix:after { content: ""; display: table; }
+.clearfix:after { clear: both; }
+.clearfix { *zoom: 1; }
+
+
+/* Mobile Styles */
+
+#is_mobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+
+  /* On mobile/tablet screen, div will have width of 5 */
+  #is_mobile {
+    width: 5px;
+  }
+  #graphs {
+    position: relative;
+  }
+  #mobile_scroller {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+  }
+  /* Compressing UI elements a bit on small screens */
+  .orion .page-header {
+    margin: 10px;
+  }
+  .navbar .nav {
+    float: left;
+    margin-bottom: 0px;
+  }
+  .nav-tabs > li > a, .nav-pills > li > a {
+    padding-right: 6px;
+    padding-left: 6px;
+  }
+  .orion #datepickers {
+    margin: 30px 0px 0px 0px;
+  }
+  input, textarea, select, .uneditable-input {
+    width: 156px;
+  }
+}
