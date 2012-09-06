@@ -59,7 +59,7 @@ CodeIgniter
 KLogger
 
 + application/libraries/KLogger.php
-+++ Extensively modified and rewritten by Ram Gudavalli. Many portions of the codebase were rewritten, but the general structure and purpose was kept
++++ A project written by Kenny Katzgrau. Modified by Ram Gudavalli.
 
 Authors
 -------
