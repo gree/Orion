@@ -95,14 +95,14 @@ $config['METRIC_CONFIG'] = array(
 
 + $config['UNWANTED_METRIC_STRINGS'] - This is used to ignore any metrics and all their child metrics. For example -
 ```php
-    $config['UNWANTED_METRIC_STRINGS'] = array('carbon'); 
+$config['UNWANTED_METRIC_STRINGS'] = array('carbon'); 
 ```
 Will ignore all the metrics that have carbon as a parent. 
 
 + $config['GRAPHITE_API_URL'] - Set this to the url/ip of the graphite server you want to connect orion with. Make sure you add a trailing slash. Example -
 
 ```php
-    $config['GRAPHITE_API_URL'] = 'http://graphite.wikidot.com/';
+$config['GRAPHITE_API_URL'] = 'http://graphite.wikidot.com/';
 ```
 
 
