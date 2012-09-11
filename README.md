@@ -24,10 +24,13 @@ Getting Started
 2. Set ENVIRONMENT to 'development' in index.php. 
 
 3. Setup the correct config params in config/orion.php - 
-+ $config['METRIC_CONFIG'] -  This is used to determine the number of indents your metrics have. For example if your metric follows the pattern
-    
-    a.b.c.d
-    
+
++ $config['METRIC_CONFIG'] -  This is used to determine the number of indents your metrics have based on the metric pattern your graphite setup follows. It is used to display labels in the create dashboard forms.
+
+For example if your metric follows the pattern
+```
+    *.*.*.*
+```
 Make the array to be like this - 
 ```php
 $config['METRIC_CONFIG'] = array(
@@ -53,18 +56,72 @@ $config['METRIC_CONFIG'] = array(
     )
 );
 ```
+
+The names a,b,c and d are the various levels of your metric pattern. For example the carbon metrics follow the pattern - 
+```
+carbon.agents.server_name.metric_name.sub_metric_name
+```
+For this an appropriate METRIC_CONFIG would be - 
+```php
+$config['METRIC_CONFIG'] = array(
+    array(
+        "name" => "carbon",
+        "display_order" => 0,
+        "allows_wildcard" => false
+    ),
+    array(
+        "name" => "agents",
+        "display_order" => 1,
+        "allows_wildcard" => false
+    ),
+    array(
+        "name" => "server_name",
+        "display_order" => 2,
+        "allows_wildcard" => false
+    ),
+    array(
+        "name" => "metric_name",
+        "display_order" => 3,
+        "allows_wildcard" => false
+    ),
+    array(
+        "name" => "sub_metric_name",
+        "display_order" => 4,
+        "allows_wildcard" => false
+    )
+);
+```
+
+
 + $config['UNWANTED_METRIC_STRINGS'] - This is used to ignore any metrics and all their child metrics. For example -
 ```php
-    $config['UNWANTED_METRIC_STRINGS'] = array('carbon'); 
+$config['UNWANTED_METRIC_STRINGS'] = array('carbon'); 
 ```
 Will ignore all the metrics that have carbon as a parent. 
 
 + $config['GRAPHITE_API_URL'] - Set this to the url/ip of the graphite server you want to connect orion with. Make sure you add a trailing slash. Example -
 
 ```php
-    $config['GRAPHITE_API_URL'] = 'http://graphite.wikidot.com/';
+$config['GRAPHITE_API_URL'] = 'http://graphite.wikidot.com/';
 ```
 
+4. IMPORTANT - Run the cache repopulate php script/view. If your orion setup is available at http://localhost/orion then the view is located at
+```
+http://localhost/orion/index.php/cache/repopulate
+```
+
+Warning - This view will take a long time to load if you have a large number of metrics and/or the network connection between orion server and the graphite server is slow. After it runs succesfully, you should see something like this in your browser. 
+```
+ADDED 1409 NEW METRICS
+
+REMOVED 24 DEPRECATED METRICS
+
+REPOPULATION IS COMPLETE
+```
+
+This script will talk with your graphite server and create a local cache of all the metrics in the mysql db. Note that this script will IGNORE ALL THE METRICS mentioned in `$config['UNWANTED_METRIC_STRINGS']` variable. 
+
+The create/edit dashboard links will only parse the metrics available in the cache. If you have new metrics that you want to resync the database, just rerun this view.
 
 Libraries / Dependencies (a.k.a. standing on the shoulders of giants)
 ------------------------
