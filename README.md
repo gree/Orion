@@ -105,7 +105,7 @@ Will ignore all the metrics that have carbon as a parent.
 $config['GRAPHITE_API_URL'] = 'http://graphite.wikidot.com/';
 ```
 
-5. IMPORTANT - Run the cache repopulate php script/view. If your orion setup is available at http://localhost/orion then the view is located at
+4. IMPORTANT - Run the cache repopulate php script/view. If your orion setup is available at http://localhost/orion then the view is located at
 ```
 http://localhost/orion/index.php/cache/repopulate
 ```
