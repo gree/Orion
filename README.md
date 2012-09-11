@@ -24,10 +24,13 @@ Getting Started
 2. Set ENVIRONMENT to 'development' in index.php. 
 
 3. Setup the correct config params in config/orion.php - 
-+ $config['METRIC_CONFIG'] -  This is used to determine the number of indents your metrics have. For example if your metric follows the pattern
-    
-    a.b.c.d
-    
+
++ $config['METRIC_CONFIG'] -  This is used to determine the number of indents your metrics have based on the metric pattern your graphite setup follows. It is used to display labels in the create dashboard forms.
+
+For example if your metric follows the pattern
+```
+    *.*.*.*
+```
 Make the array to be like this - 
 ```php
 $config['METRIC_CONFIG'] = array(
@@ -53,6 +56,43 @@ $config['METRIC_CONFIG'] = array(
     )
 );
 ```
+
+The names a,b,c and d are the various levels of your metric pattern. For example the carbon metrics follow the pattern - 
+```
+carbon.agents.server_name.metric_name.sub_metric_name
+```
+For this an appropriate METRIC_CONFIG would be - 
+```php
+$config['METRIC_CONFIG'] = array(
+    array(
+        "name" => "carbon",
+        "display_order" => 0,
+        "allows_wildcard" => false
+    ),
+    array(
+        "name" => "agents",
+        "display_order" => 1,
+        "allows_wildcard" => false
+    ),
+    array(
+        "name" => "server_name",
+        "display_order" => 2,
+        "allows_wildcard" => false
+    ),
+    array(
+        "name" => "metric_name",
+        "display_order" => 3,
+        "allows_wildcard" => false
+    ),
+    array(
+        "name" => "sub_metric_name",
+        "display_order" => 4,
+        "allows_wildcard" => false
+    )
+);
+```
+
+
 + $config['UNWANTED_METRIC_STRINGS'] - This is used to ignore any metrics and all their child metrics. For example -
 ```php
     $config['UNWANTED_METRIC_STRINGS'] = array('carbon'); 
