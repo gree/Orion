@@ -209,7 +209,7 @@ class Orion extends CI_Controller {
         //Access with index.php/orion/create_dashboard/dashboard_id
         //Optional: dashboard_id via URL if you want to edit a specific dashboard
 
-        if ( !$this->UserModel->has_permission($this->user->email, 'create') ){
+        if ( !$this->UserModel->has_permission($this->user->email, 'create') && $this->orion_config['DISABLE_OAUTH'] === false){
             redirect('orion/index');
         }
 
@@ -243,7 +243,7 @@ class Orion extends CI_Controller {
         //Access with index.php/orion/delete_dashboard
         //Optional: dashboard_id via POST if you want to delete a dashboard
 
-        if ( !$this->UserModel->has_permission($this->user->email, 'delete') ){
+        if ( !$this->UserModel->has_permission($this->user->email, 'delete') && $this->orion_config['DISABLE_OAUTH'] === false){
             $this->output->set_status_header('500');
             $this->output->set_output('{"result":false, "error":"Permission denied."}');
             return;
@@ -281,13 +281,13 @@ class Orion extends CI_Controller {
 
         if ($dashboard_id){
 
-            if ( !$this->UserModel->has_permission($this->user->email, 'update') ){
+            if ( !$this->UserModel->has_permission($this->user->email, 'update') && $this->orion_config['DISABLE_OAUTH'] === false){
                 $this->output->set_status_header('500');
                 $this->output->set_output('{"result":false, "error":"Permission denied."}');
                 return;
             }
             $dashboard->id = $dashboard_id;
-        }else if ( !$this->UserModel->has_permission($this->user->email, 'create') ){
+        }else if ( !$this->UserModel->has_permission($this->user->email, 'create') && $this->orion_config['DISABLE_OAUTH'] === false){
             $this->output->set_status_header('500');
             $this->output->set_output('{"result":false, "error":"Permission denied."}');
             return;

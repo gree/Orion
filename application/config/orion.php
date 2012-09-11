@@ -172,6 +172,15 @@ $config['GOOGLE_OAUTH_1_SITE_NAME'] = '';
 $config['ACCEPTED_DOMAIN_NAMES'] = array('');
 
 /*
+ * Oauth disable flag
+ *
+ * This will disable or enable check for oauth
+ * 
+ * 
+ */
+$config['DISABLE_OAUTH'] = true;
+
+/*
  * The ENVIRONMENT variable is set in index.php
  *
  * This sets the constants based on which
