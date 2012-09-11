@@ -27,6 +27,7 @@ Getting Started
 + $config['METRIC_CONFIG'] -  This is used to determine the number of indents your metrics have. For example if your metric follows the pattern
     
     a.b.c.d
+    
 Make the array to be like this - 
 ```php
 $config['METRIC_CONFIG'] = array(
@@ -59,7 +60,8 @@ $config['METRIC_CONFIG'] = array(
 Will ignore all the metrics that have carbon as a parent. 
 
 + $config['GRAPHITE_API_URL'] - Set this to the url/ip of the graphite server you want to connect orion with. Make sure you add a trailing slash. Example -
-```php 
+
+```php
     $config['GRAPHITE_API_URL'] = 'http://graphite.wikidot.com/';
 ```
 
