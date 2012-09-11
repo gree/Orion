@@ -105,6 +105,19 @@ Will ignore all the metrics that have carbon as a parent.
 $config['GRAPHITE_API_URL'] = 'http://graphite.wikidot.com/';
 ```
 
+5. IMPORTANT - Run the cache repopulate php script/view. If your orion setup is available at http://localhost/orion then the view is located at
+```
+http://localhost/orion/index.php/cache/repopulate
+```
+Warning - This view will take a long time to load if you have a large number of metrics and/or the network connection between orion server and the graphite server is slow. After it runs succesfully, you should see something like this in your browser. 
+```
+ADDED 1409 NEW METRICS
+REMOVED 24 DEPRECATED METRICS
+REPOPULATION IS COMPLETE
+```
+This script will talk with your graphite server and create a local cache of all the metrics in the mysql db. Note that this script will IGNORE ALL THE METRICS mentioned in `$config['UNWANTED_METRIC_STRINGS']` variable. 
+
+The create/edit dashboard links will only parse the metrics available in the cache. If you have new metrics that you want to resync the database, just rerun this view.
 
 Libraries / Dependencies (a.k.a. standing on the shoulders of giants)
 ------------------------
