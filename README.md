@@ -17,7 +17,51 @@ Key features:
 Getting Started
 ---------------
 
-1. Create the orion database
+1. Create the orion database (Install mysql first)-
+    
+    ./scripts/create_orion_db.sh 
+
+2. Set ENVIRONMENT to 'development' in index.php. 
+
+3. Setup the correct config params in config/orion.php - 
++ $config['METRIC_CONFIG'] -  This is used to determine the number of indents your metrics have. For example if your metric follows the pattern
+    
+    a.b.c.d
+Make the array to be like this - 
+```php
+$config['METRIC_CONFIG'] = array(
+    array(
+        "name" => "a",
+        "display_order" => 0,
+        "allows_wildcard" => false
+    ),
+    array(
+        "name" => "b",
+        "display_order" => 1,
+        "allows_wildcard" => false
+    ),
+    array(
+        "name" => "c",
+        "display_order" => 2,
+        "allows_wildcard" => false
+    ),
+    array(
+        "name" => "d",
+        "display_order" => 3,
+        "allows_wildcard" => false
+    )
+);
+```
++ $config['UNWANTED_METRIC_STRINGS'] - This is used to ignore any metrics and all their child metrics. For example -
+```php
+    $config['UNWANTED_METRIC_STRINGS'] = array('carbon'); 
+```
+Will ignore all the metrics that have carbon as a parent. 
+
++ $config['GRAPHITE_API_URL'] - Set this to the url/ip of the graphite server you want to connect orion with. Make sure you add a trailing slash. Example -
+```php 
+    $config['GRAPHITE_API_URL'] = 'http://graphite.wikidot.com/';
+```
 
 
 Libraries / Dependencies (a.k.a. standing on the shoulders of giants)
@@ -39,27 +83,27 @@ Libraries / Dependencies (a.k.a. standing on the shoulders of giants)
 Library Modifications
 ---------------------
 
-CodeIgniter
+###CodeIgniter
 
-+ system/core/Controller.php
-+++ Added format_orion_config() function to create the orion_config variable for the controllers on load
-+++ Modified __construct to call format_orion_config() after getting necessary config variables
+#####system/core/Controller.php
++ Added format_orion_config() function to create the orion_config variable for the controllers on load
++ Modified __construct to call format_orion_config() after getting necessary config variables
 
-+ system/database/DB_active_rec.php
-+++ Added on_duplicate() functionality in order to more easily support multiple column keys and update when key violations occur
-+++ Code obtained from http://web.archive.org/web/20090221091226/http://codeigniter.com/forums/viewthread/80958/
+#####system/database/DB_active_rec.php
++ Added on_duplicate() functionality in order to more easily support multiple column keys and update when key violations occur
++ Code obtained from http://web.archive.org/web/20090221091226/http://codeigniter.com/forums/viewthread/80958/
 
-+ system/database/drivers/mysql/mysql_driver.php
-+++ Added _duplicate_insert() functionality similar for same reason as above - this is part of the same change
-+++ Code obtained from http://web.archive.org/web/20090221091226/http://codeigniter.com/forums/viewthread/80958/
+#####system/database/drivers/mysql/mysql_driver.php
++ Added _duplicate_insert() functionality similar for same reason as above - this is part of the same change
++ Code obtained from http://web.archive.org/web/20090221091226/http://codeigniter.com/forums/viewthread/80958/
 
-+ system/core/Loader.php
-+++ In _ci_autoloader() added the functionality to autoload configs using the 'use_sections' and 'fail_gracefully' parameter use_sections/fail_gracefully) now works.
+#####system/core/Loader.php
++ In _ci_autoloader() added the functionality to autoload configs using the 'use_sections' and 'fail_gracefully' parameter use_sections/fail_gracefully) now works.
 
-KLogger
+###KLogger
 
-+ application/libraries/KLogger.php
-+++ A project written by Kenny Katzgrau. Modified by Ram Gudavalli.
+#####application/libraries/KLogger.php
++ A project written by Kenny Katzgrau. Modified by Ram Gudavalli.
 
 Authors
 -------
@@ -94,5 +138,3 @@ Licenses for libraries and dependencies:
 + MIT software License [Backbone, Underscore, Mustache, jQuery, jQuery UI, Modernizr, Chosen, KLogger] - http://www.opensource.org/licenses/MIT
 + Apache License, Version 2.0 [Twitter Bootstrap, Google APIs Client Library for PHP] - http://www.apache.org/licenses/LICENSE-2.0
 + http://codeigniter.com/user_guide/license.html
-
-
