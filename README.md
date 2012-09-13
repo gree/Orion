@@ -92,6 +92,7 @@ $config['METRIC_CONFIG'] = array(
 );
 ```
 
+If there any more sub_sub_metrics then they will appear appended with the sub_metric. Therefore `carbon.agents.server_name.metric_name.sub_metric_name.sub_sub_metric` will also appear as a valid metric.
 
 + $config['UNWANTED_METRIC_STRINGS'] - This is used to ignore any metrics and all their child metrics. For example -
 ```php

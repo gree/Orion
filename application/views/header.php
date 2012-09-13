@@ -43,7 +43,8 @@
             <div id="nav-navbar-orion">
 
                 <a class="brand" href="<?php echo base_url();?>index.php"><?php echo $APPLICATION_TITLE; ?></a>
-                <?php if ( ($user && $user->perm_create) || $this->orion_config['DISABLE_OAUTH'] === true )  { ?>
+
+                <?php if ($user && $user->perm_create) { ?>
                 <ul class="nav">
                     <li><a href="<?php echo base_url();?>index.php/orion/create_dashboard">Create Dashboard</a></li>
                     <?php if ($user && $user->perm_delete) { ?>
