@@ -172,13 +172,16 @@ $config['GOOGLE_OAUTH_1_SITE_NAME'] = '';
 $config['ACCEPTED_DOMAIN_NAMES'] = array('');
 
 /*
- * Oauth disable flag
+ * Authentication Method
  *
- * This will disable or enable check for oauth
- * 
+ * This can either be an empty string if no 
+ * authentication is desired, or one of the 
+ * following authentication methods:
+ *
+ * OAUTH2 - Uses Google OAuth2.0 authentication
  * 
  */
-$config['DISABLE_OAUTH'] = true;
+$config['AUTHENTICATION_METHOD'] = '';
 
 /*
  * The ENVIRONMENT variable is set in index.php
