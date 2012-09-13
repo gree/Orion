@@ -12,35 +12,42 @@ class Authenticate extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->load->helper('authenticate');
+		$auth_method = strtolower($this->orion_config['AUTHENTICATION_METHOD']);
+		$auth_helper = $auth_method . '_authentication';
+		$this->load->helper($auth_helper);
+
         session_start();
     }
 
     public function index(){
 
-        $client = new apiClient();
-        $client->setApplicationName($this->orion_config['GOOGLE_OAUTH_APPLICATION_NAME']);
-        $oauth2 = new apiOauth2Service($client);
-
         $token = $this->session->userdata('token');
+		//If user logged in, log them out
         if ($token) {
-            $this->session->unset_userdata('token');
-            $this->session->unset_userdata('name');
-            $this->session->unset_userdata('user');
-            redirect('orion');
-        } else {
-            if ( $this->input->get('location') ){
-                $client->setState($this->input->get('location'));
-            }
-            $authUrl = $client->createAuthUrl();
+		    self::logout();
         }
 
-        redirect($authUrl);
+        //Otherwise log them in
+		self::login();
+
     }
 
+	private function login(){
+
+		auth_login($this->input->get());
+
+	}
+
     public function logout(){
-        logout(true);
+        auth_logout( true );
     }
+
+	public function authenticate_callback(){
+		auth_callback($this->input->get());
+	}
+
+	//TODO: pcockwell 
+	//Needs to be removed when modular authentication is finished
 
     public function googleoauth2callback(){
         $client = new apiClient();
