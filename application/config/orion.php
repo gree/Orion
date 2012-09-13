@@ -163,25 +163,26 @@ $config['GOOGLE_OAUTH_CLIENT_SECRET'] = '';
 $config['GOOGLE_OAUTH_1_SITE_NAME'] = '';
 
 /*
+ * Authentication Method
+ *
+ * This can be one of the following 
+ * authentication methods:
+ *
+ * NOAUTH - No authentication is used
+ * GOOGOAUTH2 - Uses Google OAuth2.0 
+ *     authentication
+ * 
+ */
+$config['AUTHENTICATION_METHOD'] = 'NOAUTH';
+
+/*
  * Accepted Domain Names
  *
  * Domain names for which user authentication
  * is allowed. If empty, all domain names are
  * accepted.
  */
-$config['ACCEPTED_DOMAIN_NAMES'] = array('');
-
-/*
- * Authentication Method
- *
- * This can either be an empty string if no 
- * authentication is desired, or one of the 
- * following authentication methods:
- *
- * OAUTH2 - Uses Google OAuth2.0 authentication
- * 
- */
-$config['AUTHENTICATION_METHOD'] = '';
+$config['ACCEPTED_DOMAIN_NAMES'] = array();
 
 /*
  * The ENVIRONMENT variable is set in index.php
@@ -296,3 +297,4 @@ if ( ENVIRONMENT == 'production'){
         )
     );
 }
+

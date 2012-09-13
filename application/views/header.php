@@ -58,8 +58,14 @@
                 <div id="nav-logo-orion"></div>
 
                 <ul class="nav pull-right">
-                    <?php if ($this->session->userdata('token')) { ?>
-                    <li class="login_info">Logged in as <?php echo $this->session->userdata('name');?></li>
+                    <?php if ($user) { ?>
+                    <li class="login_info">Logged in<?php 
+						if ( $this->session->userdata('name') ){
+							echo " as " . $this->session->userdata('name');
+						}else if ( isset($user->email) && $user->email != '' ){
+							echo " as " . $user->email;
+						}
+					?></li>
                     <li><a href="<?php echo base_url();?>index.php/authenticate/logout">Log Out</a></li>
                     <?php } else { ?>
                     <li><a href="<?php echo base_url();?>index.php/authenticate?location=<?php echo $location; ?>">Log In</a></li>
