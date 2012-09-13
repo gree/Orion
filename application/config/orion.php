@@ -182,7 +182,7 @@ $config['AUTHENTICATION_METHOD'] = 'NOAUTH';
  * is allowed. If empty, all domain names are
  * accepted.
  */
-$config['ACCEPTED_DOMAIN_NAMES'] = array('');
+$config['ACCEPTED_DOMAIN_NAMES'] = array();
 
 /*
  * The ENVIRONMENT variable is set in index.php
