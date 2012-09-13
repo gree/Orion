@@ -15,7 +15,7 @@ class UserModel extends BaseModel {
     function create() {
         $obj = new User();
 
-		if ($this->orion_config['AUTHENTICATION_METHOD'] == ''){
+		if ($this->orion_config['AUTHENTICATION_METHOD'] == 'NOAUTH'){
             $obj->perm_create = 1;
            	$obj->perm_read = 1;
        	    $obj->perm_update = 1;
@@ -41,7 +41,7 @@ class UserModel extends BaseModel {
             $user = $this->create();
             $user->email = $email;
 
-			if ($this->orion_config['AUTHENTICATION_METHOD'] != ''){
+			if ($this->orion_config['AUTHENTICATION_METHOD'] != 'NOAUTH'){
         	    $email_split = explode("@",$email);
             	if ( empty($this->orion_config['ACCEPTED_DOMAIN_NAMES']) || in_array($email_split[1],$this->orion_config['ACCEPTED_DOMAIN_NAMES']) ){
         	        self::save($user);

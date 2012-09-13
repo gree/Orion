@@ -174,14 +174,15 @@ $config['ACCEPTED_DOMAIN_NAMES'] = array('');
 /*
  * Authentication Method
  *
- * This can either be an empty string if no 
- * authentication is desired, or one of the 
- * following authentication methods:
+ * This can be one of the following 
+ * authentication methods:
  *
- * OAUTH2 - Uses Google OAuth2.0 authentication
+ * NOAUTH - No authentication is used
+ * GOOGOAUTH2 - Uses Google OAuth2.0 
+ *     authentication
  * 
  */
-$config['AUTHENTICATION_METHOD'] = '';
+$config['AUTHENTICATION_METHOD'] = 'NOAUTH';
 
 /*
  * The ENVIRONMENT variable is set in index.php
