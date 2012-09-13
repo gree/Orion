@@ -12,8 +12,6 @@ class Authenticate extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->load->helper('authenticate');
-
 		$auth_method = strtolower($this->orion_config['AUTHENTICATION_METHOD']);
 		$auth_helper = $auth_method . '_authentication';
 		$this->load->helper($auth_helper);
@@ -40,7 +38,7 @@ class Authenticate extends CI_Controller {
 
 	}
 
-    public function logout(){}
+    public function logout(){
         auth_logout( true );
     }
 

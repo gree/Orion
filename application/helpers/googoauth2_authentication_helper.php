@@ -35,7 +35,7 @@ if (!defined('googoauth2_authentication_helper')) {
 
 	}
 
-    public function auth_callback($input){
+    function auth_callback($input){
 
         $CI =& get_instance();
         $CI->load->library('session');
@@ -69,7 +69,7 @@ if (!defined('googoauth2_authentication_helper')) {
         redirect('orion');
     }
 
-	public function auth_get_user(){
+	function auth_get_user(){
 
         $CI =& get_instance();
         $CI->load->library('session');

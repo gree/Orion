@@ -33,7 +33,7 @@ if (!defined('googoauth2_authentication_helper')) {
         redirect($redirect);
 	}
 
-	public function auth_get_user(){
+	function auth_get_user(){
 
         $CI =& get_instance();
 		$CI->load->model('user/UserModel');

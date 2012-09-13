@@ -9,7 +9,10 @@ class UserModel extends BaseModel {
 
     public function __construct(){
         parent::__construct();
-        $this->load->helper('authenticate');
+
+		$auth_method = strtolower($this->orion_config['AUTHENTICATION_METHOD']);
+		$auth_helper = $auth_method . '_authentication';
+		$this->load->helper($auth_helper);
     }
 
     function create() {
@@ -47,7 +50,7 @@ class UserModel extends BaseModel {
         	        self::save($user);
                 	$user->id = self::last_insert_id();
             	}else{
-                	logout(false);
+                	auth_logout(false);
             	    show_error('Invalid domain name for user email. User not authorized', 401, 'Unauthorized');
             	}
 			}

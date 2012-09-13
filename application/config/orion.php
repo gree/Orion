@@ -163,15 +163,6 @@ $config['GOOGLE_OAUTH_CLIENT_SECRET'] = '';
 $config['GOOGLE_OAUTH_1_SITE_NAME'] = '';
 
 /*
- * Accepted Domain Names
- *
- * Domain names for which user authentication
- * is allowed. If empty, all domain names are
- * accepted.
- */
-$config['ACCEPTED_DOMAIN_NAMES'] = array('');
-
-/*
  * Authentication Method
  *
  * This can be one of the following 
@@ -183,6 +174,15 @@ $config['ACCEPTED_DOMAIN_NAMES'] = array('');
  * 
  */
 $config['AUTHENTICATION_METHOD'] = 'NOAUTH';
+
+/*
+ * Accepted Domain Names
+ *
+ * Domain names for which user authentication
+ * is allowed. If empty, all domain names are
+ * accepted.
+ */
+$config['ACCEPTED_DOMAIN_NAMES'] = array('');
 
 /*
  * The ENVIRONMENT variable is set in index.php
@@ -297,3 +297,4 @@ if ( ENVIRONMENT == 'production'){
         )
     );
 }
+
