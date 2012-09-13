@@ -27,7 +27,7 @@ if (!defined('googoauth2_authentication_helper')) {
         $client = new apiClient();
         $client->setApplicationName($CI->orion_config['GOOGLE_OAUTH_APPLICATION_NAME']);
         $oauth2 = new apiOauth2Service($client);
-       	if ( array_key_exists( 'location', $input ){
+       	if ( array_key_exists( 'location', $input ) ){
             $client->setState($input['location']);
         }
         $authUrl = $client->createAuthUrl();

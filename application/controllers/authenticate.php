@@ -43,7 +43,7 @@ class Authenticate extends CI_Controller {
     }
 
 	public function authenticate_callback(){
-		auth_call_back($this->input->get());
+		auth_callback($this->input->get());
 	}
 
 	//TODO: pcockwell 
