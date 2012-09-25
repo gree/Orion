@@ -35,7 +35,7 @@ $this->load->view('header');
 
                                 <li>
                                     <a href="#" class="dashboard-retrieve"><?php echo $dashboard->dashboard_name; ?></a>
-                                    <?php if ( $user && $user->perm_update || $this->orion_config['DISABLE_OAUTH'] === true) { ?>
+                                    <?php if ($user && $user->perm_update) { ?>
                                     <a href='<?php echo base_url();?>index.php/orion/create_dashboard/<?php echo urlencode($dashboard->id); ?>' class='edit_link'>[edit]</a>
                                     <?php } ?>
                                 </li>

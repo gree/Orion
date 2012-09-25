@@ -35,7 +35,7 @@ $apiConfig = array(
     // OAuth2 Settings, you can get these keys at https://code.google.com/apis/console
     'oauth2_client_id' => $this->orion_config['GOOGLE_OAUTH_CLIENT_ID'],
     'oauth2_client_secret' => $this->orion_config['GOOGLE_OAUTH_CLIENT_SECRET'],
-    'oauth2_redirect_uri' => base_url() . 'index.php/authenticate/googleoauth2callback',
+    'oauth2_redirect_uri' => base_url() . 'index.php/authenticate/authenticate_callback',
 
     // The developer key, you get this at https://code.google.com/apis/console
     'developer_key' => '',

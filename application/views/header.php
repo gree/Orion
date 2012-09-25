@@ -43,7 +43,8 @@
             <div id="nav-navbar-orion">
 
                 <a class="brand" href="<?php echo base_url();?>index.php"><?php echo $APPLICATION_TITLE; ?></a>
-                <?php if ( ($user && $user->perm_create) || $this->orion_config['DISABLE_OAUTH'] === true )  { ?>
+
+                <?php if ($user && $user->perm_create) { ?>
                 <ul class="nav">
                     <li><a href="<?php echo base_url();?>index.php/orion/create_dashboard">Create Dashboard</a></li>
                     <?php if ($user && $user->perm_delete) { ?>
@@ -57,8 +58,14 @@
                 <div id="nav-logo-orion"></div>
 
                 <ul class="nav pull-right">
-                    <?php if ($this->session->userdata('token')) { ?>
-                    <li class="login_info">Logged in as <?php echo $this->session->userdata('name');?></li>
+                    <?php if ($user) { ?>
+                    <li class="login_info">Logged in<?php 
+						if ( $this->session->userdata('name') ){
+							echo " as " . $this->session->userdata('name');
+						}else if ( isset($user->email) && $user->email != '' ){
+							echo " as " . $user->email;
+						}
+					?></li>
                     <li><a href="<?php echo base_url();?>index.php/authenticate/logout">Log Out</a></li>
                     <?php } else { ?>
                     <li><a href="<?php echo base_url();?>index.php/authenticate?location=<?php echo $location; ?>">Log In</a></li>
