@@ -62,6 +62,10 @@ class UserModel extends BaseModel {
     }
 
     function has_permission($email, $permission){
+
+        if ( $email == null ){
+            return false;
+        }
         $permission = 'perm_'.$permission;
         $user = $this->authenticate($email);
         return $user->$permission == 1;
