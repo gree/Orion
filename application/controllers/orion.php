@@ -175,7 +175,11 @@ class Orion extends CI_Controller {
         $until = $this->input->get('until');
         $function = $this->input->get('function');
 
-        $dashboard = $this::_setup_view_metric($metric_name, $from, $until, $function);
+        $from_suffix = $this->input->get('from_suffix') ? $this->input->get('from_suffix') : GraphiteModel::HOURS ;
+        $until_suffix = $this->input->get('until_suffix') ? $this->input->get('until_suffix') : GraphiteModel::HOURS ;
+
+
+        $dashboard = $this::_setup_view_metric($metric_name, $from, $from_suffix, $until, $until_suffix, $function);
 
         $this->data['dashboard_json'] = $dashboard;
         $this->data['location'] = "orion/embed/?metric=" . $metric_name . "&from=" . $from . "&until=" . $until;
@@ -183,7 +187,7 @@ class Orion extends CI_Controller {
         $this->load->view('embed', $this->data);
     }
 
-    private function _setup_view_metric($metric_name, $from, $until, $function = null){
+    private function _setup_view_metric($metric_name, $from, $from_suffix, $until, $until_suffix, $function = null){
 
 
         $metric_names = explode(',', $metric_name);
@@ -199,7 +203,7 @@ class Orion extends CI_Controller {
         $graph->order = 0;
 
         $metrics = array();
-        $datapoints = $this->GraphiteModel->get_details($metric_names, array($from, GraphiteModel::HOURS), array($until, GraphiteModel::HOURS), $function);
+        $datapoints = $this->GraphiteModel->get_details($metric_names, array($from, $from_suffix), array($until, $until_suffix), $function);
 
         $transformed_metric_names = $metric_names;
         if( $function ) {
@@ -225,6 +229,7 @@ class Orion extends CI_Controller {
         $dashboard->graphs = $graphs;
         return $dashboard;
     }
+
 
     function create_dashboard($dashboard_id = null) {
 
