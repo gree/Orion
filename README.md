@@ -124,6 +124,142 @@ This script will talk with your graphite server and create a local cache of all 
 
 The create/edit dashboard links will only parse the metrics available in the cache. If you have new metrics that you want to resync the database, just rerun this view.
 
+5. Determine what type of authentication you want to use. Currently supported in the default code base are Google OAuth 2.0, or a No Authentication system. Set the value of the `$config['AUTHENTICATION_METHOD']` variable in config/orion.php.
+
++ $config['AUTHENTICATION_METHOD'] - This is used to determine the which type of authentication system to use. Currently valid values are "NOAUTH" or "GOOGOAUTH2".
+
+If you would like to use a different method for authentication, it is possible to set this up. In order to do so, determine a short form name for you authentication method (in all capital letters). For the following examples, assume your short form name is chosen to be "NEWAUTHMETHOD".
+
+Create a file in the helpers folder named after your short form name. For example, `newauthmethod_authentication_helper.php`. Make sure you include the trailing `_authentication_helper.php` in the file name. You will then need to define the functionality for 3 (or potentiall 4) methods, and place them in this file.
+
+```php
+function auth_get_user(){
+    
+    $CI =& get_instance();
+    $CI->load->library('session');
+    $CI->load->model('user/UserModel');
+
+    //Parse session variables here to determine if user is logged in 
+    // (for example, look for an auth token)
+
+    $logged_in = true; //Set this variable to reflect whether the user is logged in
+
+    if ( $logged_in ){
+        //Determine the users email address
+        $user_email = "myname@domain.com"; 
+
+        $email = filter_var($user_email, FILTER_SANITIZE_EMAIL);
+        $user = $CI->UserModel->authenticate($email);
+    }else{
+        $user = $CI->UserModel->create();
+    }
+
+    return $user;
+}
+
+function auth_logout($redirect = true){
+
+        $CI =& get_instance();
+        $CI->load->library('session');
+
+        //Determine if the user is logged in. A good way to do so,
+        // if you set a token value during login, is to grab this
+        // value from the session. The value of the $token variable
+        // will be false if no such variable exists in the session
+        $token = $CI->session->userdata('token');
+        if ($token) {
+
+            //If the user is logged in, unset all the session variables
+            $CI->session->unset_userdata('token');
+            $CI->session->unset_userdata('name');
+            $CI->session->unset_userdata('user');
+        }
+
+        //Do not change this
+        if ($redirect){
+            redirect('orion');
+        }else{
+            return;
+        }
+}
+
+function auth_login($input){
+    //The input variable is an array of parameters passed to the login
+    // script via the GET method.
+    // If using an external authentication method that allows the hand off
+    // of state variables, you can use the $input['location'] variable to
+    // pass the desired location of the user through the authentication
+    // method, and redirect the user to this location upon logging in
+    
+    $CI =& get_instance();
+
+    //This is where you do your work to log the user in
+    
+    //If you need to go to an external source, you will likely
+    // need a callback function. For this, see below.
+}
+
+function auth_callback($input){
+    //This is only used if you need to go to an external source for
+    // authentication purposes
+
+    //The input variable is an array of parameters passed to the login
+    // script via the GET method.    
+
+    //If you need to provide a callback URL to the external source,
+    // assuming your base instance is 'http://localhost/orion/', your 
+    // authentication callback will be 
+    // 'http://localhost/orion/index.php/authenticate/authenticate_callback/'
+    
+    $CI =& get_instance();
+    $CI->load->library('session');
+    $CI->load->model('user/UserModel');
+
+    //This is where you do your work, given the information from the external
+    // source to log the user in
+
+    $external_auth_success = true; //Set this variable to reflect whether the user was logged in by the external source
+
+    if ( $external_auth_success ){
+        //Though not necessary, the following few lines are recommended
+        // If you have a token, it is wise to save the token in the session
+        // Similarly, if you know the user's name, you can save it in the
+        // session, and the UI will reflect this when the user is logged in
+        $CI->session->set_userdata(array('token' => $token));
+        $CI->session->set_userdata(array('name' => $user_real_name));
+
+        //These are necessary lines. You must in some way or another, set these
+        // values. First, you determine the user's email, and authenticate them
+        // (which will create a new user if not present in the DB). This will
+        // return the authenticated user. You need to save this user as a json
+        // encoded object in the session under the key 'user'. This is already
+        // done in the lines below, all you need to do is set the $user_email variable 
+        $email = filter_var($user_email, FILTER_SANITIZE_EMAIL);
+        $user = $CI->UserModel->authenticate($email);
+        $CI->session->set_userdata(array('user' => json_encode($user)));
+
+        //If you used the location value in the auth_login function, and passed this
+        // through the external authentication source, you can use the following lines
+        // to redirect to the new location.
+        $redirect = $external_source_value; ////Set the $redirect variable to reflect whether the value passed back by the external source
+        if (!$redirect){
+            $redirect = "orion";
+        }
+        redirect($redirect);
+
+    }
+
+    redirect('orion');
+}
+```
+
+After creating this file and defining the functionality for these methods, change the value of the `$config['AUTHENTICATION_METHOD']` variable to what you chose as your short form name (in this example it was "NEWAUTHMETHOD"). It should look like this
+```php
+$config['AUTHENTICATION_METHOD'] = 'NEWAUTHMETHOD';
+```
+
+Test your new authentication method.
+
 Libraries / Dependencies (a.k.a. standing on the shoulders of giants)
 ------------------------
 
