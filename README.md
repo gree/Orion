@@ -159,28 +159,28 @@ function auth_get_user(){
 
 function auth_logout($redirect = true){
 
-        $CI =& get_instance();
-        $CI->load->library('session');
+    $CI =& get_instance();
+    $CI->load->library('session');
 
-        //Determine if the user is logged in. A good way to do so,
-        // if you set a token value during login, is to grab this
-        // value from the session. The value of the $token variable
-        // will be false if no such variable exists in the session
-        $token = $CI->session->userdata('token');
-        if ($token) {
+    //Determine if the user is logged in. A good way to do so,
+    // if you set a token value during login, is to grab this
+    // value from the session. The value of the $token variable
+    // will be false if no such variable exists in the session
+    $token = $CI->session->userdata('token');
+    if ($token) {
 
-            //If the user is logged in, unset all the session variables
-            $CI->session->unset_userdata('token');
-            $CI->session->unset_userdata('name');
-            $CI->session->unset_userdata('user');
-        }
+        //If the user is logged in, unset all the session variables
+        $CI->session->unset_userdata('token');
+        $CI->session->unset_userdata('name');
+        $CI->session->unset_userdata('user');
+    }
 
-        //Do not change this
-        if ($redirect){
-            redirect('orion');
-        }else{
-            return;
-        }
+    //Do not change this
+    if ($redirect){
+        redirect('orion');
+    }else{
+        return;
+    }
 }
 
 function auth_login($input){
@@ -241,7 +241,7 @@ function auth_callback($input){
         //If you used the location value in the auth_login function, and passed this
         // through the external authentication source, you can use the following lines
         // to redirect to the new location.
-        $redirect = $external_source_value; ////Set the $redirect variable to reflect whether the value passed back by the external source
+        $redirect = $external_source_value; //Set the $redirect variable to reflect whether the value passed back by the external source
         if (!$redirect){
             $redirect = "orion";
         }
