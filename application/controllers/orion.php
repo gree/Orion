@@ -189,17 +189,16 @@ class Orion extends CI_Controller {
 
     private function _setup_view_metric($metric_name, $from, $from_suffix, $until, $until_suffix, $function = null){
 
-
         $metric_names = explode(',', $metric_name);
 
         $dashboard = $this->DashboardModel->create();
-        $dashboard->dashboard_name = ''; //ucwords(str_replace("_"," ",$metric_info["Metric"]));
+        $dashboard->dashboard_name = ''; 
         $dashboard->category_name = remove_from_front($metric_name,$this->orion_config['METRIC_PREFIX']);
         $dashboard->restricted = 0;
 
         $graph = $this->GraphModel->create();
         $graph->is_half_size = 0;
-        $graph->graph_name = ''; //ucwords(str_replace("_"," ",$metric_info["Interval"]));
+        $graph->graph_name = ''; 
         $graph->order = 0;
 
         $metrics = array();
@@ -208,7 +207,6 @@ class Orion extends CI_Controller {
         $transformed_metric_names = $metric_names;
         if( $function ) {
             $metric_name = implode( ",", $metric_names );
-//            $metric_name = "a.b.c.$function()";
             $transformed_metric_names = array( $metric_name );
         }
 
