@@ -10,10 +10,6 @@ if (!defined('dashboard_helper')) {
     }
 
     function get_all_dashboard_data($dashboard_name, $category_name, $from = null, $until = null){
-        $CI = & get_instance();
-        $CI->load->model('graphite/GraphiteModel');
-        $CI->load->helper('general');
-
         $dashboard_object = get_dashboard_json($dashboard_name, $category_name);
         $dashboard_payload = json_decode($dashboard_object['payload']);
         $graphs = $dashboard_payload->graphs;
@@ -30,66 +26,97 @@ if (!defined('dashboard_helper')) {
         }
 
         if ($is_dot_star){
-            return get_dot_star_data($CI, $dashboard_payload, $from, $until);
+            return get_dot_star_data($dashboard_payload, $from, $until);
         }
 
         foreach ($graphs as $graph){
 
-            $other_period_metrics_array = array();
-
-            foreach ($graph->metrics as $metric){
-
-                $metric->display_name = $metric->metric_name;
-
-                if ($from != null){
-                    $from = abs($from) * -1;
-                    $metric->from = $from;
-                }
-                if ($until != null){
-                    $until = abs($until) * -1;
-                    $metric->until = $until;
-                }
-
-                $original_series = $CI->GraphiteModel->get_details($metric->metric_name, array($metric->from, GraphiteModel::HOURS), array($metric->until, GraphiteModel::HOURS));
-                $flip_series = flip_time_series($original_series[0]->datapoints);
-                $metric->datapoints = $flip_series;
-
-                $add_offset_metric = false;
-                if (property_exists($metric, 'other_period_offsets')){
-                    if ( !is_array( $metric->other_period_offsets ) ){
-                        $metric->other_period_offsets = array( $metric->other_period_offsets );
-                    }
-                    foreach ($metric->other_period_offsets as $offset){
-                        if ($offset != 0){
-                            $add_offset_metric = true;
-                        }
-                    }
-                }
-
-                $index = 0;
-                if ($add_offset_metric){
-                    while ($index < count($metric->other_period_offsets)){
-                        if ($metric->other_period_offsets[$index] != 0){
-                            $offset_metric = get_offset_metric($metric, $metric->other_period_offsets[$index]);
-                            $original_series = $CI->GraphiteModel->get_details($offset_metric->metric_name, array($offset_metric->from, GraphiteModel::HOURS), array($offset_metric->until, GraphiteModel::HOURS));
-                            $shifted_series = shift_time_series($offset_metric->offset, $original_series[0]->datapoints);
-                            $flip_series = flip_time_series($shifted_series);
-                            $offset_metric->datapoints = $flip_series;
-                            $other_period_metrics_array[] = $offset_metric;
-                        }
-                        $index++;
-                    }
-                }
-
-            }
-
-            $graph->metrics = array_merge($graph->metrics, $other_period_metrics_array);
+            get_all_graph_data($graph, $from, $until);
 
         }
+
         return json_encode($dashboard_payload);
     }
 
-    function get_dot_star_data($CI, $dashboard_payload, $from = null, $until = null){
+    function get_all_graph_data($graph, $from = null, $until = null){
+        $CI = & get_instance();
+        $CI->load->model('graphite/GraphiteModel');
+        $CI->load->helper('general');
+
+        if ( !property_exists($graph, "metrics") ){
+            
+            $CI->load->model('metric/MetricModel');
+            $CI->load->model('graph_metrics/GraphMetricsModel');
+
+            $graph_metric_objs = $CI->GraphMetricsModel->get_metrics_by_graph($graph->id);
+            $graph->metrics = array();
+
+            foreach ($graph_metric_objs as $graph_metric){
+                $metric = $CI->MetricModel->get_by_id($graph_metric->metric_id);
+                $metric->order = $graph_metric->graph_order;
+                $metric->from = $metric->start_from;
+                unset($metric->start_from);
+                $graph->metrics[] = $metric;
+            }
+        }
+
+        $other_period_metrics_array = array();
+
+        foreach ($graph->metrics as $metric){
+
+            $metric->display_name = $metric->metric_name;
+
+            if ($from != null){
+                $from = abs($from) * -1;
+                $metric->from = $from;
+            }
+            if ($until != null){
+                $until = abs($until) * -1;
+                $metric->until = $until;
+            }
+
+            $original_series = $CI->GraphiteModel->get_details($metric->metric_name, array($metric->from, GraphiteModel::HOURS), array($metric->until, GraphiteModel::HOURS));
+            $flip_series = flip_time_series($original_series[0]->datapoints);
+            $metric->datapoints = $flip_series;
+
+            $add_offset_metric = false;
+            if (property_exists($metric, 'other_period_offsets')){
+                if ( !is_array( $metric->other_period_offsets ) ){
+                    $metric->other_period_offsets = array( $metric->other_period_offsets );
+                }
+                foreach ($metric->other_period_offsets as $offset){
+                    if ($offset != 0){
+                        $add_offset_metric = true;
+                    }
+                }
+            }
+
+            $index = 0;
+            if ($add_offset_metric){
+                while ($index < count($metric->other_period_offsets)){
+                    if ($metric->other_period_offsets[$index] != 0){
+                        $offset_metric = get_offset_metric($metric, $metric->other_period_offsets[$index]);
+                        $original_series = $CI->GraphiteModel->get_details($offset_metric->metric_name, array($offset_metric->from, GraphiteModel::HOURS), array($offset_metric->until, GraphiteModel::HOURS));
+                        $shifted_series = shift_time_series($offset_metric->offset, $original_series[0]->datapoints);
+                        $flip_series = flip_time_series($shifted_series);
+                        $offset_metric->datapoints = $flip_series;
+                        $other_period_metrics_array[] = $offset_metric;
+                    }
+                    $index++;
+                }
+            }
+
+        }
+
+        $graph->metrics = array_merge($graph->metrics, $other_period_metrics_array);
+
+    }
+
+    function get_dot_star_data($dashboard_payload, $from = null, $until = null){
+        $CI = & get_instance();
+        $CI->load->model('graphite/GraphiteModel');
+        $CI->load->helper('general');
+
         $graphs = $dashboard_payload->graphs;
         $new_graphs = array();
         $graph_num = 0;
