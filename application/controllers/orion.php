@@ -203,8 +203,8 @@ class Orion extends CI_Controller {
 
         $transformed_metric_names = $metric_names;
         if( $function ) {
-            //$metric_name = implode( ",", $metric_names );
-            $metric_name = "a.b.c.$function()";
+            $metric_name = implode( ",", $metric_names );
+//            $metric_name = "a.b.c.$function()";
             $transformed_metric_names = array( $metric_name );
         }
 
