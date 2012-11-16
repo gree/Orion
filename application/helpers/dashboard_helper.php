@@ -285,5 +285,19 @@ if (!defined('dashboard_helper')) {
 
         return $dashboard->restricted;
     }
+
+    function get_formatted_graph_object(Graph $input_graph, $size = 5) {
+        $metrics = $input_graph->metrics;
+        $graphs = array();
+        $offset = 0;
+        while( $offset < count($metrics) ) {
+            $metric_list = array_slice($metrics, $offset, $size);
+            $offset += $size;
+            $graph = clone $input_graph;
+            $graph->metrics = $metric_list;
+            $graphs[] = $graph;
+        }
+        return $graphs;
+    }
 }
 ?>

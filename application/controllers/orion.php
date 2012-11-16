@@ -132,35 +132,12 @@ class Orion extends CI_Controller {
     }
 
     function view_metric(){
-
         $metric_name = $this->input->get('metric');
         $from = $this->input->get('from');
         $until = $this->input->get('until');
 
-        $datapoints = $this->GraphiteModel->get_details($metric_name, array($from, GraphiteModel::HOURS), array($until, GraphiteModel::HOURS));
+        $dashboard = $this::_setup_view_metric($metric_name, $from, $until);
 
-        $dashboard = $this->DashboardModel->create();
-        $dashboard->dashboard_name = '';
-        $dashboard->category_name = remove_from_front($metric_name,$this->orion_config['METRIC_PREFIX']);
-        $dashboard->restricted = 0;
-
-        $graph = $this->GraphModel->create();
-        $graph->is_half_size = 0;
-        $graph->graph_name = '';
-        $graph->order = 0;
-
-        $metric = $this->MetricModel->create();
-        $metric->metric_name = $metric_name;
-        $metric->display_name = $metric_name;
-        $metric->from = $from;
-        $metric->until = $until;
-        $metric->other_period_offsets = array(0);
-        $metric->order = 0;
-        $metric->datapoints = flip_time_series($datapoints[0]->datapoints);
-
-        $graph->metrics = array($metric);
-        $dashboard->graphs = array($graph);
-        
         $navigation = array();
         $links = array();
 
@@ -169,7 +146,6 @@ class Orion extends CI_Controller {
         foreach ( $all_categories as $category ){
             $category_id = $category->id;
             $name = $category->category_name;
-
             $dashboards = $this->DashboardModel->get_dashboards_by_category_id($category_id);
             foreach ( $dashboards as $nav_dashboard ){
                 if (!$nav_dashboard->restricted){
@@ -185,14 +161,73 @@ class Orion extends CI_Controller {
         }
 
         $location = "orion/view_metric/?metric=" . $metric_name . "&from=" . $from . "&until=" . $until;
-
         $this->data['navigation'] = $navigation;
         $this->data['links'] = $links;
         $this->data['dashboard_json'] = $dashboard;
         $this->data['location'] = $location;
-        $this->load->view('home', $this->data);
 
+        $this->load->view('home', $this->data);
     }
+
+    function embed() {
+        $metric_name = $this->input->get('metric');
+        $from = $this->input->get('from');
+        $until = $this->input->get('until');
+        $function = $this->input->get('function');
+
+        $from_suffix = $this->input->get('from_suffix') ? $this->input->get('from_suffix') : GraphiteModel::HOURS ;
+        $until_suffix = $this->input->get('until_suffix') ? $this->input->get('until_suffix') : GraphiteModel::HOURS ;
+
+
+        $dashboard = $this::_setup_view_metric($metric_name, $from, $from_suffix, $until, $until_suffix, $function);
+
+        $this->data['dashboard_json'] = $dashboard;
+        $this->data['location'] = "orion/embed/?metric=" . $metric_name . "&from=" . $from . "&until=" . $until;
+
+        $this->load->view('embed', $this->data);
+    }
+
+    private function _setup_view_metric($metric_name, $from, $from_suffix, $until, $until_suffix, $function = null){
+
+        $metric_names = explode(',', $metric_name);
+
+        $dashboard = $this->DashboardModel->create();
+        $dashboard->dashboard_name = ''; 
+        $dashboard->category_name = remove_from_front($metric_name,$this->orion_config['METRIC_PREFIX']);
+        $dashboard->restricted = 0;
+
+        $graph = $this->GraphModel->create();
+        $graph->is_half_size = 0;
+        $graph->graph_name = ''; 
+        $graph->order = 0;
+
+        $metrics = array();
+        $datapoints = $this->GraphiteModel->get_details($metric_names, array($from, $from_suffix), array($until, $until_suffix), $function);
+
+        $transformed_metric_names = $metric_names;
+        if( $function ) {
+            $metric_name = implode( ",", $metric_names );
+            $transformed_metric_names = array( $metric_name );
+        }
+
+        $i = 0;
+        foreach($transformed_metric_names as $metric_name) {
+            $metric = $this->MetricModel->create();
+            $metric->metric_name = $metric_name;
+            $metric->display_name = $metric_name;
+            $metric->from = $from;
+            $metric->until = $until;
+            $metric->other_period_offsets = array(0);
+            $metric->order = 0;
+            $metric->datapoints = flip_time_series($datapoints[$i++]->datapoints);
+            $metrics[] = $metric;
+        }
+        $graph->metrics = $metrics;
+        $graphs = get_formatted_graph_object($graph);
+        $dashboard->graphs = $graphs;
+        return $dashboard;
+    }
+
 
     function create_dashboard($dashboard_id = null) {
 

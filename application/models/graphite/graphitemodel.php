@@ -86,14 +86,20 @@ class GraphiteModel {
         return $metric_paths;
     }
 
-    public function get_details($metric_paths, $from, $until = array('0',GraphiteModel::HOURS)){
+    public function get_details($metric_paths, $from, $until = array('0',GraphiteModel::HOURS), $function = null ){
         if (!is_array($metric_paths)){
             $metric_paths = array($metric_paths);
         }
 
         $url = $this->get_api_url() . 'render?rawData=true&format=json';
-        foreach ($metric_paths as $path){
-            $url = $url . '&target=' . $path;
+
+        if( $function == null ) {
+            foreach ($metric_paths as $path){
+                $url = $url . '&target=' . $path;
+            }
+        }
+        else {
+            $url = $url . '&target=' . $function . '(' . implode( ",", $metric_paths ) . ')';
         }
 
         if (!is_array($from)){
