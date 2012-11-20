@@ -316,6 +316,8 @@ Authors
 
 + http://flavors.me/karankurani
 
+**Scott Ware**
+
 **Ram Gudavalli**
 
 
