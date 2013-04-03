@@ -68,7 +68,11 @@ class UserModel extends BaseModel {
         }
         $permission = 'perm_'.$permission;
         $user = $this->authenticate($email);
-        return $user->$permission == 1;
+        $has_permission = $user->$permission == 1;
+        if ( !$has_permission ){
+            debug(__FILE__, $this->user->email . " does not have " . $permission . " access");
+        }
+        return $has_permission;
     }
 
     function get_all_users(){
