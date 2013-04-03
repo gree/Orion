@@ -10,27 +10,27 @@ class UserModel extends BaseModel {
     public function __construct(){
         parent::__construct();
 
-		$auth_method = strtolower($this->orion_config['AUTHENTICATION_METHOD']);
-		$auth_helper = $auth_method . '_authentication';
-		$this->load->helper($auth_helper);
+        $auth_method = strtolower($this->orion_config['AUTHENTICATION_METHOD']);
+        $auth_helper = $auth_method . '_authentication';
+        $this->load->helper($auth_helper);
     }
 
     function create() {
         $obj = new User();
 
-		if ($this->orion_config['AUTHENTICATION_METHOD'] == 'NOAUTH'){
+        if ($this->orion_config['AUTHENTICATION_METHOD'] == 'NOAUTH'){
             $obj->perm_create = 1;
-           	$obj->perm_read = 1;
-       	    $obj->perm_update = 1;
-   	        $obj->perm_delete = 1;
-            $obj->perm_restricted = 1;			
-		}else{
-   	        $obj->perm_create = 0;
-           	$obj->perm_read = 1;
-       	    $obj->perm_update = 0;
-   	        $obj->perm_delete = 0;
+               $obj->perm_read = 1;
+               $obj->perm_update = 1;
+               $obj->perm_delete = 1;
+            $obj->perm_restricted = 1;            
+        }else{
+               $obj->perm_create = 0;
+               $obj->perm_read = 1;
+               $obj->perm_update = 0;
+               $obj->perm_delete = 0;
             $obj->perm_restricted = 0;
-		}
+        }
         return $obj;
     }
 
@@ -44,16 +44,16 @@ class UserModel extends BaseModel {
             $user = $this->create();
             $user->email = $email;
 
-			if ($this->orion_config['AUTHENTICATION_METHOD'] != 'NOAUTH'){
-        	    $email_split = explode("@",$email);
-            	if ( empty($this->orion_config['ACCEPTED_DOMAIN_NAMES']) || in_array($email_split[1],$this->orion_config['ACCEPTED_DOMAIN_NAMES']) ){
-        	        self::save($user);
-                	$user->id = self::last_insert_id();
-            	}else{
-                	auth_logout(false);
-            	    show_error('Invalid domain name for user email. User not authorized', 401, 'Unauthorized');
-            	}
-			}
+            if ($this->orion_config['AUTHENTICATION_METHOD'] != 'NOAUTH'){
+                $email_split = explode("@",$email);
+                if ( empty($this->orion_config['ACCEPTED_DOMAIN_NAMES']) || in_array($email_split[1],$this->orion_config['ACCEPTED_DOMAIN_NAMES']) ){
+                    self::save($user);
+                    $user->id = self::last_insert_id();
+                }else{
+                    auth_logout(false);
+                    show_error('Invalid domain name for user email. User not authorized', 401, 'Unauthorized');
+                }
+            }
         }else{
             $user = $user[0];
         }

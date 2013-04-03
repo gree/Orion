@@ -19,12 +19,12 @@ class Orion extends CI_Controller {
         $this->load->helper('dashboard');
         $this->load->helper('general');
 
-		$auth_method = strtolower($this->orion_config['AUTHENTICATION_METHOD']);
-		$auth_helper = $auth_method . '_authentication';
+        $auth_method = strtolower($this->orion_config['AUTHENTICATION_METHOD']);
+        $auth_helper = $auth_method . '_authentication';
 
-		$this->load->helper($auth_helper);
+        $this->load->helper($auth_helper);
 
-		$this->user = auth_get_user();
+        $this->user = auth_get_user();
 
         $this->data['METRIC_PREFIX'] = ( $this->orion_config['METRIC_PREFIX'] == '' || ends_with($this->orion_config['METRIC_PREFIX'], '.') ) ? $this->orion_config['METRIC_PREFIX'] : $this->orion_config['METRIC_PREFIX'] . '.';
         $this->data['METRIC_CONFIG'] = $this->orion_config['METRIC_CONFIG'];

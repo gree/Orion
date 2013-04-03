@@ -20,26 +20,26 @@ if (!defined('googoauth2_authentication_helper')) {
         }
     }
 
-	function auth_login($input){
+    function auth_login($input){
 
         $CI =& get_instance();
 
         $client = new apiClient();
         $client->setApplicationName($CI->orion_config['GOOGLE_OAUTH_APPLICATION_NAME']);
         $oauth2 = new apiOauth2Service($client);
-       	if ( array_key_exists( 'location', $input ) ){
+        if ( array_key_exists( 'location', $input ) ){
             $client->setState($input['location']);
         }
         $authUrl = $client->createAuthUrl();
         redirect($authUrl);
 
-	}
+    }
 
     function auth_callback($input){
 
         $CI =& get_instance();
         $CI->load->library('session');
-		$CI->load->model('user/UserModel');
+        $CI->load->model('user/UserModel');
 
         $client = new apiClient();
         $client->setApplicationName($CI->orion_config['GOOGLE_OAUTH_APPLICATION_NAME']);
@@ -69,11 +69,11 @@ if (!defined('googoauth2_authentication_helper')) {
         redirect('orion');
     }
 
-	function auth_get_user(){
+    function auth_get_user(){
 
         $CI =& get_instance();
         $CI->load->library('session');
-		$CI->load->model('user/UserModel');
+        $CI->load->model('user/UserModel');
 
         $client = new apiClient();
         $client->setApplicationName($CI->orion_config['GOOGLE_OAUTH_APPLICATION_NAME']);
@@ -92,9 +92,9 @@ if (!defined('googoauth2_authentication_helper')) {
             $user = $CI->UserModel->create();
         }
 
-		return $user;
+        return $user;
 
-	}
+    }
 
 }
 ?>

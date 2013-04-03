@@ -18,7 +18,7 @@ if (!defined('googoauth2_authentication_helper')) {
         }
     }
 
-	function auth_login($input){
+    function auth_login($input){
 
         $CI =& get_instance();
         $CI->load->library('session');
@@ -31,16 +31,16 @@ if (!defined('googoauth2_authentication_helper')) {
             $redirect = "orion";
         }
         redirect($redirect);
-	}
+    }
 
-	function auth_get_user(){
+    function auth_get_user(){
 
         $CI =& get_instance();
-		$CI->load->model('user/UserModel');
+        $CI->load->model('user/UserModel');
 
-		return $CI->UserModel->create();
+        return $CI->UserModel->create();
 
-	}
+    }
 
 }
 ?>

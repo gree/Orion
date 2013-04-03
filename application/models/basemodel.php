@@ -57,7 +57,7 @@ abstract class BaseModel extends CI_Model {
         $obj_list = array();
 
         foreach ($results as $row) {
-        	$obj_list[] = $this->map_to_object($row);
+            $obj_list[] = $this->map_to_object($row);
         }
 
         return $obj_list;

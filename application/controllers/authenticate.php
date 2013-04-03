@@ -12,9 +12,9 @@ class Authenticate extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
-		$auth_method = strtolower($this->orion_config['AUTHENTICATION_METHOD']);
-		$auth_helper = $auth_method . '_authentication';
-		$this->load->helper($auth_helper);
+        $auth_method = strtolower($this->orion_config['AUTHENTICATION_METHOD']);
+        $auth_helper = $auth_method . '_authentication';
+        $this->load->helper($auth_helper);
 
         session_start();
     }
@@ -22,28 +22,28 @@ class Authenticate extends CI_Controller {
     public function index(){
 
         $token = $this->session->userdata('token');
-		//If user logged in, log them out
+        //If user logged in, log them out
         if ($token) {
-		    self::logout();
+            self::logout();
         }
 
         //Otherwise log them in
-		self::login();
+        self::login();
 
     }
 
-	private function login(){
+    private function login(){
 
-		auth_login($this->input->get());
+        auth_login($this->input->get());
 
-	}
+    }
 
     public function logout(){
         auth_logout( true );
     }
 
-	public function authenticate_callback(){
-		auth_callback($this->input->get());
-	}
+    public function authenticate_callback(){
+        auth_callback($this->input->get());
+    }
 
 }

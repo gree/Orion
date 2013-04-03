@@ -12,12 +12,12 @@ class Links extends CI_Controller {
         $this->load->model('dashboard/DashboardModel');
 
 
-		$auth_method = strtolower($this->orion_config['AUTHENTICATION_METHOD']);
-		$auth_helper = $auth_method . '_authentication';
+        $auth_method = strtolower($this->orion_config['AUTHENTICATION_METHOD']);
+        $auth_helper = $auth_method . '_authentication';
 
-		$this->load->helper($auth_helper);
+        $this->load->helper($auth_helper);
 
-		$this->user = auth_get_user();
+        $this->user = auth_get_user();
 
         $this->data['APPLICATION_TITLE'] = $this->orion_config['APPLICATION_TITLE'];
 
