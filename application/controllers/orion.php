@@ -450,7 +450,7 @@ class Orion extends CI_Controller {
 
             //Save and return user on success, or error message on failure
             if ( $this->UserModel->save($user_obj) ){
-                $this->output->set_output(json_encode($this->UserModel->authenticate($user_obj->email)));
+                $this->output->set_output(json_encode($this->UserModel->get_user_by_email($user_obj->email)));
             }else{
                 $this->output->set_status_header('500');
                 $this->output->set_output('{"result":false, "error":"Error while saving user to the database"}');
