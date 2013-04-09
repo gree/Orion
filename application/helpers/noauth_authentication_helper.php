@@ -24,6 +24,14 @@ if (!defined('googoauth2_authentication_helper')) {
         $CI->load->library('session');
 
         $user = $CI->UserModel->create();
+
+        //Update permissions to allow everything
+        $user->perm_create = 1;
+        $user->perm_read = 1;
+        $user->perm_update = 1;
+        $user->perm_delete = 1;
+        $user->perm_restricted = 1;
+
         $CI->session->set_userdata(array('user' => json_encode($user)));
 
         $redirect = $input['location'];
@@ -38,7 +46,16 @@ if (!defined('googoauth2_authentication_helper')) {
         $CI =& get_instance();
         $CI->load->model('user/UserModel');
 
-        return $CI->UserModel->create();
+        $user = $CI->UserModel->create();
+
+        //Update permissions to allow everything
+        $user->perm_create = 1;
+        $user->perm_read = 1;
+        $user->perm_update = 1;
+        $user->perm_delete = 1;
+        $user->perm_restricted = 1;
+    
+        return $user;
 
     }
 

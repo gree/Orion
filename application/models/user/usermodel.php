@@ -18,19 +18,12 @@ class UserModel extends BaseModel {
     function create() {
         $obj = new User();
 
-        if ($this->orion_config['AUTHENTICATION_METHOD'] == 'NOAUTH'){
-            $obj->perm_create = 1;
-               $obj->perm_read = 1;
-               $obj->perm_update = 1;
-               $obj->perm_delete = 1;
-            $obj->perm_restricted = 1;            
-        }else{
-               $obj->perm_create = 0;
-               $obj->perm_read = 1;
-               $obj->perm_update = 0;
-               $obj->perm_delete = 0;
-            $obj->perm_restricted = 0;
-        }
+        $obj->perm_create = 0;
+        $obj->perm_read = 1;
+        $obj->perm_update = 0;
+        $obj->perm_delete = 0;
+        $obj->perm_restricted = 0;
+    
         return $obj;
     }
 
@@ -61,17 +54,13 @@ class UserModel extends BaseModel {
         return $user;
     }
 
-    function has_permission($email, $permission){
+    function has_permission($user, $permission){
 
-        if ( $email == null ){
+        if ( $user == null ){
             return false;
-        }
+        } 
         $permission = 'perm_'.$permission;
-        $user = $this->authenticate($email);
         $has_permission = $user->$permission == 1;
-        if ( !$has_permission ){
-            debug(__FILE__, $this->user->email . " does not have " . $permission . " access");
-        }
         return $has_permission;
     }
 
