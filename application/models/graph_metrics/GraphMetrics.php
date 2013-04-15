@@ -7,7 +7,7 @@ class GraphMetrics extends BaseEntity {
     public static $_db_fields = array(
         "graph_id"      => array("int", "none", false),
         "metric_id"     => array("int", "none", false),
-        "graph_order"	=> array("int", "none", false)
+        "graph_order"   => array("int", "none", false)
     );
 
     public $graph_id;
