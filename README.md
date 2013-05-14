@@ -1,4 +1,4 @@
-[Orion Screenshot](http://github.com/gree/Orion/blob/master/readme_images/5-NewOrion.png)
+![Orion Screenshot](http://github.com/gree/Orion/blob/master/readme_images/5-NewOrion.png?raw=true)
 
 [Orion]
 =================
