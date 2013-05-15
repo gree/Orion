@@ -19,12 +19,12 @@ class Orion extends CI_Controller {
         $this->load->helper('dashboard');
         $this->load->helper('general');
 
-		$auth_method = strtolower($this->orion_config['AUTHENTICATION_METHOD']);
-		$auth_helper = $auth_method . '_authentication';
+        $auth_method = strtolower($this->orion_config['AUTHENTICATION_METHOD']);
+        $auth_helper = $auth_method . '_authentication';
 
-		$this->load->helper($auth_helper);
+        $this->load->helper($auth_helper);
 
-		$this->user = auth_get_user();
+        $this->user = auth_get_user();
 
         $this->data['METRIC_PREFIX'] = ( $this->orion_config['METRIC_PREFIX'] == '' || ends_with($this->orion_config['METRIC_PREFIX'], '.') ) ? $this->orion_config['METRIC_PREFIX'] : $this->orion_config['METRIC_PREFIX'] . '.';
         $this->data['METRIC_CONFIG'] = $this->orion_config['METRIC_CONFIG'];
@@ -51,7 +51,7 @@ class Orion extends CI_Controller {
             foreach ( $dashboards as $dashboard ){
                 if (!$dashboard->restricted){
                     $navigation[$name][] = $dashboard;
-                }else if ( $this->UserModel->has_permission($this->user->email, 'restricted') ){
+                }else if ( $this->UserModel->has_permission($this->user, 'restricted') ){
                     $navigation[$name][] = $dashboard;
                 }
             }
@@ -73,7 +73,7 @@ class Orion extends CI_Controller {
             $dashboard = json_decode(get_all_dashboard_data(urldecode($dashboard_name), urldecode($category_name)));
             if (!$dashboard->restricted){
                 $this->data['dashboard_json'] = $dashboard;
-            }else if ( $this->UserModel->has_permission($this->user->email, 'restricted') ){
+            }else if ( $this->UserModel->has_permission($this->user, 'restricted') ){
                $this->data['dashboard_json'] = $dashboard;
             }
         }
@@ -107,7 +107,7 @@ class Orion extends CI_Controller {
         $dashboard_obj = json_decode($dashboard);
         if (!$dashboard_obj->restricted){
             $this->output->set_output($dashboard);
-        }else if ( $this->UserModel->has_permission($this->user->email, 'restricted') ){
+        }else if ( $this->UserModel->has_permission($this->user, 'restricted') ){
             $this->output->set_output($dashboard);
         }else{
             $this->output->set_status_header('500');
@@ -150,7 +150,7 @@ class Orion extends CI_Controller {
             foreach ( $dashboards as $nav_dashboard ){
                 if (!$nav_dashboard->restricted){
                     $navigation[$name][] = $nav_dashboard;
-                }else if ( $this->UserModel->has_permission($this->user->email, 'restricted') ){
+                }else if ( $this->UserModel->has_permission($this->user, 'restricted') ){
                     $navigation[$name][] = $nav_dashboard;
                 }
             }
@@ -234,7 +234,7 @@ class Orion extends CI_Controller {
         //Access with index.php/orion/create_dashboard/dashboard_id
         //Optional: dashboard_id via URL if you want to edit a specific dashboard
 
-        if ( !$this->UserModel->has_permission($this->user->email, 'create') ){
+        if ( !$this->UserModel->has_permission($this->user, 'create') ){
             redirect('orion/index');
         }
 
@@ -268,7 +268,7 @@ class Orion extends CI_Controller {
         //Access with index.php/orion/delete_dashboard
         //Optional: dashboard_id via POST if you want to delete a dashboard
 
-        if ( !$this->UserModel->has_permission($this->user->email, 'delete') ){
+        if ( !$this->UserModel->has_permission($this->user, 'delete') ){
             $this->output->set_status_header('500');
             $this->output->set_output('{"result":false, "error":"Permission denied."}');
             return;
@@ -306,13 +306,13 @@ class Orion extends CI_Controller {
 
         if ($dashboard_id){
 
-            if ( !$this->UserModel->has_permission($this->user->email, 'update') ){
+            if ( !$this->UserModel->has_permission($this->user, 'update') ){
                 $this->output->set_status_header('500');
                 $this->output->set_output('{"result":false, "error":"Permission denied."}');
                 return;
             }
             $dashboard->id = $dashboard_id;
-        }else if ( !$this->UserModel->has_permission($this->user->email, 'create') ){
+        }else if ( !$this->UserModel->has_permission($this->user, 'create') ){
             $this->output->set_status_header('500');
             $this->output->set_output('{"result":false, "error":"Permission denied."}');
             return;
@@ -470,7 +470,7 @@ class Orion extends CI_Controller {
 
         //Access with index.php/orion/users
 
-        if ( !$this->UserModel->has_permission($this->user->email, 'delete') ){
+        if ( !$this->UserModel->has_permission($this->user, 'delete') ){
             redirect('orion/index');
         }
 
@@ -485,7 +485,7 @@ class Orion extends CI_Controller {
 
             //Save and return user on success, or error message on failure
             if ( $this->UserModel->save($user_obj) ){
-                $this->output->set_output(json_encode($this->UserModel->authenticate($user_obj->email)));
+                $this->output->set_output(json_encode($this->UserModel->get_user_by_email($user_obj->email)));
             }else{
                 $this->output->set_status_header('500');
                 $this->output->set_output('{"result":false, "error":"Error while saving user to the database"}');

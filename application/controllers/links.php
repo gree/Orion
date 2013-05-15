@@ -12,12 +12,12 @@ class Links extends CI_Controller {
         $this->load->model('dashboard/DashboardModel');
 
 
-		$auth_method = strtolower($this->orion_config['AUTHENTICATION_METHOD']);
-		$auth_helper = $auth_method . '_authentication';
+        $auth_method = strtolower($this->orion_config['AUTHENTICATION_METHOD']);
+        $auth_helper = $auth_method . '_authentication';
 
-		$this->load->helper($auth_helper);
+        $this->load->helper($auth_helper);
 
-		$this->user = auth_get_user();
+        $this->user = auth_get_user();
 
         $this->data['APPLICATION_TITLE'] = $this->orion_config['APPLICATION_TITLE'];
 
@@ -25,7 +25,7 @@ class Links extends CI_Controller {
 
     function index() {
 
-        if ( !$this->UserModel->has_permission($this->user->email, 'create') ){
+        if ( !$this->UserModel->has_permission($this->user, 'create') ){
             redirect('orion/index');
             //show_error('Permission denied. User not authorized.', 401, 'Unauthorized');
         }
@@ -53,7 +53,7 @@ class Links extends CI_Controller {
 
         //Access with index.php/links/save_link
 
-        if ( !$this->UserModel->has_permission($this->user->email, 'update') ){
+        if ( !$this->UserModel->has_permission($this->user, 'update') ){
             //show_error('Permission denied. User not authorized.', 401, 'Unauthorized');
             $this->output->set_status_header('500');
             $this->output->set_output('{"result":false, "error":"Permission denied."}');
@@ -99,7 +99,7 @@ class Links extends CI_Controller {
         //Access with index.php/links/delete_link
         //Optional: link_id via POST if you want to delete a dashboard
 
-        if ( !$this->UserModel->has_permission($this->user->email, 'delete') ){
+        if ( !$this->UserModel->has_permission($this->user, 'delete') ){
             //show_error('Permission denied. User not authorized.', 401, 'Unauthorized');
             $this->output->set_status_header('500');
             $this->output->set_output('{"result":false, "error":"Permission denied."}');
