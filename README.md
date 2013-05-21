@@ -13,6 +13,17 @@ Key features:
 + Orion is easily adaptable to any Graphite tree structure with a few simple config changes
 + Granular access permissions are provided via Google Account OAuth
 
+Setting Up Your Environment
+---------------------------
+
+1. Install and configure Apache (set the DocumentRoot, ServerRoot, Listen, etc variables appropriately)
+
+2. Install MySQL
+
+3. Install and configure PHP5 (on linux you'll want to install php5, libapache2-mod-php5)
+
+4. Install and enable needed PHP extensions (php5-curl, php5-mysql)
+    a. To enable them, uncomment the lines in php.ini that mention these extensions (extension=mysql.so, extension=curl.so)
 
 Getting Started
 ---------------
