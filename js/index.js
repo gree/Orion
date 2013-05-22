@@ -308,8 +308,7 @@ var APP = APP || {};
                         yAxis: {
                             title: {
                                 text: titleText
-                            },
-                            min: 0
+                            }
                         }
                     });
 
