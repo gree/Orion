@@ -136,7 +136,10 @@ class Orion extends CI_Controller {
         $from = $this->input->get('from');
         $until = $this->input->get('until');
 
-        $dashboard = $this::_setup_view_metric($metric_name, $from, $until);
+        $from_suffix = $this->input->get('from_suffix') ? $this->input->get('from_suffix') : GraphiteModel::HOURS ;
+        $until_suffix = $this->input->get('until_suffix') ? $this->input->get('until_suffix') : GraphiteModel::HOURS ;
+
+        $dashboard = $this::_setup_view_metric($metric_name, $from, $from_suffix, $until, $until_suffix);
 
         $navigation = array();
         $links = array();
@@ -192,13 +195,13 @@ class Orion extends CI_Controller {
         $metric_names = explode(',', $metric_name);
 
         $dashboard = $this->DashboardModel->create();
-        $dashboard->dashboard_name = ''; 
+        $dashboard->dashboard_name = '';
         $dashboard->category_name = remove_from_front($metric_name,$this->orion_config['METRIC_PREFIX']);
         $dashboard->restricted = 0;
 
         $graph = $this->GraphModel->create();
         $graph->is_half_size = 0;
-        $graph->graph_name = ''; 
+        $graph->graph_name = '';
         $graph->order = 0;
 
         $metrics = array();
