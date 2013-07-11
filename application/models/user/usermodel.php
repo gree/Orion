@@ -39,6 +39,13 @@ class UserModel extends BaseModel {
 
             $email_split = explode("@",$email);
             if ( empty($this->orion_config['ACCEPTED_DOMAIN_NAMES']) || in_array($email_split[1],$this->orion_config['ACCEPTED_DOMAIN_NAMES']) ){
+                if (self::count() == 0){
+                    $user->perm_create = 1;
+                    $user->perm_read = 1;
+                    $user->perm_update = 1;
+                    $user->perm_delete = 1;
+                    $user->perm_restricted = 1;
+                }
                 self::save($user);
                 $user->id = self::last_insert_id();
             }else{

@@ -15,6 +15,17 @@ Key features:
 + Orion is easily adaptable to any Graphite tree structure with a few simple config changes
 + Granular access permissions are provided via Google Account OAuth
 
+Setting Up Your Environment
+---------------------------
+
+1. Install and configure Apache (set the DocumentRoot, ServerRoot, Listen, etc variables appropriately)
+
+2. Install MySQL
+
+3. Install and configure PHP5 (on linux you'll want to install php5, libapache2-mod-php5)
+
+4. Install and enable needed PHP extensions (php5-curl, php5-mysql)
+    a. To enable them, uncomment the lines in php.ini that mention these extensions (extension=mysql.so, extension=curl.so)
 
 Getting Started
 ---------------
@@ -132,7 +143,7 @@ The create/edit dashboard links will only parse the metrics available in the cac
 
 If you would like to use a different method for authentication, it is possible to set this up. In order to do so, determine a short form name for you authentication method (in all capital letters). For the following examples, assume your short form name is chosen to be "NEWAUTHMETHOD".
 
-Create a file in the helpers folder named after your short form name. For example, `newauthmethod_authentication_helper.php`. Make sure you include the trailing `_authentication_helper.php` in the file name. You will then need to define the functionality for 3 (or potentiall 4) methods, and place them in this file.
+Create a file in the helpers folder named after your short form name. For example, `newauthmethod_authentication_helper.php`. Make sure you include the trailing `_authentication_helper.php` in the file name. You will then need to define the functionality for 3 (or potentially 4) methods, and place them in this file.
 
 ```php
 function auth_get_user(){
