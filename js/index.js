@@ -504,7 +504,7 @@ var APP = APP || {};
 
                 // Make server call for dashboard info.
                 $.ajax({
-                    url: APP.Setup.get_base_path() + '/index.php/orion/get_dashboard_graphs',
+                    url: APP.Setup.get_base_path() + 'index.php/orion/get_dashboard_graphs',
                     type: 'GET',
                     data: {
                         dashboard: dashboard,
