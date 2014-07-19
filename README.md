@@ -1,6 +1,6 @@
 *PS: We are looking for contributors to manage/update the project.*
 
-![Orion Screenshot](http://github.com/gree/Orion/blob/master/readme_images/5-NewOrion.png?raw=true)
+![Orion Screenshot](https://github.com/gree/Orion/blob/master/readme_images/5-NewOrion.png?raw=true)
 
 [Orion]
 =================
