@@ -34,19 +34,7 @@ class Cache extends CI_Controller {
 
         $initial_set = $this->GraphiteModel->get_metrics_with_format($metric_base);
         $all_metric_array = array();
-        //debug(__FILE__, print_r($initial_set,true));
 
-        // todo: is this even necessary? this check looks to be performed in graphitemodel.php
-        // foreach($initial_set as $path){
-        //     foreach($this->orion_config['UNWANTED_METRIC_STRINGS'] as $unwanted_string) {
-        //         if(strpos($path, $unwanted_string) !== FALSE){
-        //             debug(__FILE__, "CACHE_REPOPULATE: Skipping " . $path . " because it contains " . $unwanted_string);
-        //             continue 2;
-        //         }
-        //     }
-
-        //     array_push($all_metric_array, $path);
-        // };
         debug(__FILE__, "CACHE_REPOPULATE: all_metrics:");
         debug(__FILE__, "CACHE_REPOPULATE: found " . count($initial_set) . " metrics in graphite");
         self::update_mysql_table($initial_set);
@@ -75,20 +63,12 @@ class Cache extends CI_Controller {
 
         debug(__FILE__, "CACHE_REPOPULATE: For every existing metric, check for existance in current graphite metric set, if found, remove from remove-list");
         foreach ($mysql_metrics_list as $metric_name => $value) {
-            // why do an array search? both arrays are associatives arrays (i.e. hash sets)
-            // answer: they're not both associative arrays
-            // solution, let's build a hash set
-            // $key = array_search($metric_name, $all_metric_array);
-            // if ($key === 0 || $key) {
-            //     unset($mysql_metrics_list[$metric_name]);
-            //     unset($all_metric_array[$key]);
-            // }
 
             if (isset($graphite_metric_array[$metric_name])) {
                 unset($mysql_metrics_list[$metric_name]);
                 unset($graphite_metric_array[$metric_name]);
             }
-            
+
         }
 
         $metrics_to_delete = array_keys($mysql_metrics_list);
