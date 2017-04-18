@@ -294,26 +294,26 @@ Libraries / Dependencies (a.k.a. standing on the shoulders of giants)
 Library Modifications
 ---------------------
 
-###CodeIgniter
+### CodeIgniter
 
-#####system/core/Controller.php
+##### system/core/Controller.php
 + Added format_orion_config() function to create the orion_config variable for the controllers on load
 + Modified __construct to call format_orion_config() after getting necessary config variables
 
-#####system/database/DB_active_rec.php
+##### system/database/DB_active_rec.php
 + Added on_duplicate() functionality in order to more easily support multiple column keys and update when key violations occur
 + Code obtained from http://web.archive.org/web/20090221091226/http://codeigniter.com/forums/viewthread/80958/
 
-#####system/database/drivers/mysql/mysql_driver.php
+##### system/database/drivers/mysql/mysql_driver.php
 + Added _duplicate_insert() functionality similar for same reason as above - this is part of the same change
 + Code obtained from http://web.archive.org/web/20090221091226/http://codeigniter.com/forums/viewthread/80958/
 
-#####system/core/Loader.php
+##### system/core/Loader.php
 + In _ci_autoloader() added the functionality to autoload configs using the 'use_sections' and 'fail_gracefully' parameter use_sections/fail_gracefully) now works.
 
-###KLogger
+### KLogger
 
-#####application/libraries/KLogger.php
+##### application/libraries/KLogger.php
 + A project written by Kenny Katzgrau. Modified by Ram Gudavalli.
 
 Authors
