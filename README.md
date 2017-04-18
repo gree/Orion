@@ -329,7 +329,7 @@ Authors
 
 **Karan Kurani**
 
-+ http://flavors.me/karankurani
++ http://karankurani.com
 
 **Ram Gudavalli**
 
