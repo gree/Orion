@@ -126,7 +126,7 @@ $config['GRAPHITE_API_URL'] = 'http://graphite.wikidot.com/';
 http://localhost/orion/index.php/cache/repopulate
 ```
 
-Warning - This view will take a long time to load if you have a large number of metrics and/or the network connection between orion server and the graphite server is slow. After it runs succesfully, you should see something like this in your browser. 
+Warning - This view will take a long time to load if you have a large number of metrics and/or the network connection between orion server and the graphite server is slow. After it runs successfully, you should see something like this in your browser. 
 ```
 ADDED 1409 NEW METRICS
 
